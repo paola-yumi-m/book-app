@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import './styles.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export const App = () => {
+    return (
+        <div className='app'>
+            <div className='header'>
+                <h1>My Book App</h1>
+            </div>
+            <div className='body'>
+                <div className='collections'>
+                    <h2>Collections</h2>
+                </div>
+                <div className='books'>
+                    <h2>Books</h2>
+                    <button className='add-book'>Add new book</button>
+                    <ul className='book-list'>
+                        <li className='list-item'>
+                            <div className='book-card'>
+                                <p>Book 1</p>
+                                <p>Title</p>
+                                <p>Author</p>
+                                <p>Number of pages</p>
+                                <p>% completed</p>
+                                <p>Collection</p>
+                                <button className='edit-button'>Editar</button>
+                                <button className='delete-button'>Delete</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div className='book-card'>
+                                <p>Book 2</p>
+                                <p>Title</p>
+                                <p>Author</p>
+                                <p>Number of pages</p>
+                                <p>% completed</p>
+                                <p>Collection</p>
+                                <button className='edit-button'>Editar</button>
+                                <button className='delete-button'>Delete</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+);
 }
-
-export default App;
