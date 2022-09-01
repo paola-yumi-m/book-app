@@ -1,11 +1,5 @@
-class Book {
-    private _title: string;
-    private _author: string;
-    private _pages: number;
-    private _year: number;
-    private _collection: string;
-
-    constructor(title: string, author: string, pages: number, year: number, collection: string) {
+export class Book {
+    constructor(title, author, pages, year, collection) {
         this._title = title;
         this._author = author;
         this._pages = pages;
@@ -13,19 +7,19 @@ class Book {
         this._collection = collection;
     }
 
-    set collection(value: string) {
+    set collection(value) {
         this._collection = value;
     }
-    set year(value: number) {
+    set year(value) {
         this._year = value;
     }
-    set pages(value: number) {
+    set pages(value) {
         this._pages = value;
     }
-    set title(value: string) {
+    set title(value) {
         this._title = value;
     }
-    set author(value: string) {
+    set author(value) {
         this._author = value;
     }
 
@@ -51,7 +45,7 @@ class Book {
 }
 
 export class BookFactory {
-    getBook(title: string, author: string, pages: number, year: number, collection: string) {
+    getBook(title, author, pages, year, collection) {
         return new Book(title, author, pages, year, collection);
     }
 }
