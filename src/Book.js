@@ -5,13 +5,17 @@ export const Book = ({book}) => {
     return (
         <div className='book-card'>
             <h3>{book.title}</h3>
-            <p>{book.author}</p>
-            <p>{book.pages} pages</p>
-            <p>{book.year}</p>
-            <p>Collection: {book.collection}</p>
-            <p>{pagesRead} pages read | {100 * pagesRead / book.pages}% completed</p>
-            <button className='edit-button'>Edit</button>
-            <button className='delete-button'>Delete</button>
+            <h4>{book.author}</h4>
+            <div className='book-card-content'>
+                <p className='book-info'>{book.pages} pages</p>
+                <p className='book-info'>{book.year}</p>
+                <p className='book-info'>Collection: {book.collection}</p>
+                <p className='book-info'>{pagesRead} pages read | {100 * pagesRead / book.pages}% completed</p>
+            </div>
+            <div>
+                <button className='buttons edit-button'>Edit</button>
+                <button className='buttons delete-button'>Delete</button>
+            </div>
         </div>
     );
 }

@@ -32,7 +32,7 @@ export const App = () => {
     const [ collections ] = useState(getCollectionsInitialState());
 
     const getBooks = () =>
-        books.map((book, key) => <li className='list-item' key={key}><Book book={book} /></li>);
+        books.map((book, key) => <li className='book-list-item' key={key}><Book book={book} /></li>);
 
     const getCollections = () =>
         collections.map((collection, key) => <li key={key}><Collections collection={collection} /></li>);
