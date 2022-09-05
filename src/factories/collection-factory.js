@@ -36,6 +36,6 @@ export class Collection {
 
 export class CollectionFactory {
     getCollection(name, books) {
-        return new Collection(name, books.length);
+        return new Collection(name, books);
     }
 }

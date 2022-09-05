@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .app {
@@ -9,9 +10,12 @@
 }
 
 .header {
+    display: flex;
+    align-items: center;
     background-color: cadetblue;
     height: 4rem;
     width: 100%;
+    padding-left: 10px;
 }
 
 .body {
@@ -19,13 +23,38 @@
 }
 
 .collections {
-    background-color: deeppink;
+    background-color: lavenderblush;
     width: 15rem;
+    padding: 10px;
+}
+
+.collection-card {
+    background-color: #00d9ff;
+    color: #10055c;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.collection-card:hover {
+    scale: 105%;
+}
+
+.collections-list {
+    margin-top: 10px;
 }
 
 .books {
     background-color: sienna;
     width: 100%;
+}
+
+.books-header {
+    margin: 10px;
+}
+
+.add-book {
+    margin-top: 10px;
 }
 
 .book-list {
@@ -42,7 +71,8 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: flex-start;
-    background-color: cadetblue;
+    background-color: #10055c;
+    color: #00d9ff;
     margin: 10px;
     padding: 15px;
     width: 10rem;
@@ -54,5 +84,14 @@
 
 .buttons {
     margin-right: 5px;
-    padding: 5px;
+    padding: 8px;
+    background-color: #10055c;
+    color: #00d9ff;
+    border: #00d9ff;
+    border-style: dashed;
+}
+
+.buttons:hover {
+    background-color: #00d9ff;
+    color: #10055c;
 }
