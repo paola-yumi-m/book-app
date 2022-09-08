@@ -87,11 +87,12 @@
     padding: 8px;
     background-color: #10055c;
     color: #00d9ff;
-    border: #00d9ff;
-    border-style: dashed;
+    border: dashed #00d9ff;
+    border-radius: 10%;
 }
 
 .buttons:hover {
     background-color: #00d9ff;
     color: #10055c;
+    border: dashed #10055c;
 }

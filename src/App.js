@@ -30,6 +30,7 @@ export const App = () => {
 
     function getCollectionsInitialState() {
         return [
+            collectionFactory.getCollection('All', [...harryPotter, ...mazeRunner]),
             collectionFactory.getCollection('Harry Potter', harryPotter),
             collectionFactory.getCollection('Maze Runner', mazeRunner)
         ];
