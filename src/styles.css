@@ -96,3 +96,25 @@
     color: #10055c;
     border: dashed #10055c;
 }
+
+.add-book-form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 200px;
+    justify-content: space-around;
+    color: #10055c;
+}
+
+input {
+    height: 25px;
+    margin-bottom: 10px;
+}
+
+.submit-button {
+    height: 40px;
+}
+
+.form-title {
+    margin-bottom: 10px;
+}

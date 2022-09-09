@@ -4,11 +4,13 @@ import {BookFactory} from "./factories/book-factory";
 import {CollectionFactory} from "./factories/collection-factory";
 import {Book} from "./Book";
 import {Collections} from "./Collections";
+import {AddNewBookCard} from "./AddNewBookCard";
 
 export const App = () => {
     const bookFactory = new BookFactory();
     const collectionFactory = new CollectionFactory();
     const [ currentCollection, setCurrentCollection ] = useState(0);
+    const [ addNewBook, setAddNewBook ] = useState(false);
 
     const harryPotter = [
             bookFactory.getBook(`Harry Potter and the Philosopher's Stone`, 'J. K. Rowling', 300, 1997, 'Harry Potter'),
@@ -51,6 +53,10 @@ export const App = () => {
         getBooks(id);
     }
 
+    function handleAddNewBook() {
+        setAddNewBook(true);
+    }
+
     return (
         <div className='app'>
             <div className='header'>
@@ -66,7 +72,8 @@ export const App = () => {
                 <div className='books'>
                     <div className='books-header'>
                         <h2>Books</h2>
-                        <button className='buttons add-book'>Add new book</button>
+                        <button className='buttons add-book' onClick={handleAddNewBook}>Add new book</button>
+                        {addNewBook ? <AddNewBookCard /> : <p></p>}
                     </div>
                     <ul className='book-list'>
                         {getBooks(currentCollection)}
