@@ -106,7 +106,7 @@
     color: #10055c;
 }
 
-input {
+input, select {
     height: 25px;
     margin-bottom: 10px;
 }
