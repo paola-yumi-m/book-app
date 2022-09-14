@@ -118,3 +118,8 @@ input, select {
 .form-title {
     margin-bottom: 10px;
 }
+
+.new-collection {
+    width: 200px;
+    border: none;
+}

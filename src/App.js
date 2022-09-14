@@ -73,7 +73,7 @@ export const App = () => {
                     <div className='books-header'>
                         <h2>Books</h2>
                         <button className='buttons add-book' onClick={handleAddNewBook}>Add new book</button>
-                        {addNewBook ? <AddNewBookCard collections={collections} setCollection={setCollections} collectionFactory={collectionFactory} /> : <p></p>}
+                        {addNewBook ? <AddNewBookCard collections={collections} setCollection={setCollections} /> : <p></p>}
                     </div>
                     <ul className='book-list'>
                         {getBooks(currentCollection)}
