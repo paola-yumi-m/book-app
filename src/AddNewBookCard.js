@@ -3,16 +3,15 @@ import {CollectionFactory} from "./factories/collection-factory";
 import {BookFactory} from "./factories/book-factory";
 import {Collection} from "./factories/collection-factory";
 
-export const AddNewBookCard = ({ collections, setCollection }) => {
+export const AddNewBookCard = ({ collections, setCollections }) => {
+    const collectionFactory = new CollectionFactory();
+    const bookFactory = new BookFactory();
+
     const [ title, setTitle ] = useState("");
     const [ author, setAuthor ] = useState("");
     const [ pages, setPages ] = useState("");
     const [ year, setYear ] = useState("");
     const [ collectionName, setCollectionName ] = useState("New Collection");
-    const collectionFactory = new CollectionFactory();
-    const bookFactory = new BookFactory();
-    const collection = new Collection('oi', []);
-    console.log(collection.name);
 
     function getOptions() {
         return collections.map((collection, id) => collection.name === 'All' ?
@@ -25,20 +24,17 @@ export const AddNewBookCard = ({ collections, setCollection }) => {
         const newBook = bookFactory.getBook(title, author, pages, year, collectionName);
         if (collectionName === 'New Collection') {
             const newCollection = collectionFactory.getCollection(collectionName, [newBook]);
-            setCollection(() =>
+            setCollections(() =>
                 [...collections,
                     newCollection]
             )
         }
         else {
-            const collectionToEdit = collections.filter(collection => collection.name === collectionName);
-            console.log(collectionToEdit);
-            collectionToEdit.addBook();
-            console.log(collectionToEdit);
-            setCollection(() =>
-                [...collections,
-                collectionToEdit])
+            const teste = collections.map(item => item.name === collectionName? item.books += newBook : item);
+            console.log(teste);
+            // setCollections((prevState) => [...collections, ])
         }
+        console.log(collections);
     }
 
     function newCollection() {
