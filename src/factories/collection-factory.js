@@ -13,7 +13,7 @@ export class Collection {
         this._name = value;
     }
 
-    get books() {
+    getBooks() {
         return this._books;
     }
 

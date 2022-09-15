@@ -30,9 +30,13 @@ export const AddNewBookCard = ({ collections, setCollections }) => {
             )
         }
         else {
-            const teste = collections.map(item => item.name === collectionName? item.books += newBook : item);
-            console.log(teste);
-            // setCollections((prevState) => [...collections, ])
+            const collectionToEdit = collections.filter(collection => collection.name === collectionName);
+            console.log(collectionToEdit[0].getBooks());
+            // setCollections((prevState) => {
+            //     const editedCollection = []
+            //     prevState.map(collection => collection.name === collectionName ? console.log(collection) : editedCollection.push(collection));
+            //     return editedCollection;
+            // })
         }
         console.log(collections);
     }
