@@ -5,7 +5,6 @@ import {CollectionFactory} from "./factories/collection-factory";
 import {Book} from "./Book";
 import {Collections} from "./Collections";
 import {AddNewBookCard} from "./AddNewBookCard";
-import {logDOM} from "@testing-library/react";
 
 export const App = () => {
     const bookFactory = new BookFactory();
@@ -74,11 +73,9 @@ export const App = () => {
                     <div className='books-header'>
                         <h2>Books</h2>
                         <button className='buttons add-book' onClick={handleAddNewBook}>Add new book</button>
-                        {addNewBook ? <AddNewBookCard collections={collections} setCollections={setCollections} /> : <p></p>}
+                        {addNewBook ? <AddNewBookCard collections={collections} setCollections={setCollections} setAddNewBook={setAddNewBook} /> : <p></p>}
                     </div>
                     <ul className='book-list'>
-                        {console.log(collections)}
-                        {console.log(currentCollection)}
                         {getBooks(currentCollection)}
                     </ul>
                 </div>

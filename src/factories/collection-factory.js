@@ -13,7 +13,7 @@ export class Collection {
         this._name = value;
     }
 
-    getBooks() {
+    get books() {
         return this._books;
     }
 
@@ -31,6 +31,7 @@ export class Collection {
 
     addBook(book) {
         this._books.push(book);
+        this._size++;
     }
 }
 

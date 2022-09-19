@@ -1,9 +1,8 @@
 import React, {useState} from "react";
 import {CollectionFactory} from "./factories/collection-factory";
 import {BookFactory} from "./factories/book-factory";
-import {Collection} from "./factories/collection-factory";
 
-export const AddNewBookCard = ({ collections, setCollections }) => {
+export const AddNewBookCard = ({ collections, setCollections, setAddNewBook }) => {
     const collectionFactory = new CollectionFactory();
     const bookFactory = new BookFactory();
 
@@ -12,6 +11,7 @@ export const AddNewBookCard = ({ collections, setCollections }) => {
     const [ pages, setPages ] = useState("");
     const [ year, setYear ] = useState("");
     const [ collectionName, setCollectionName ] = useState("New Collection");
+    const [ isNew, setIsNew ] = useState(true);
 
     function getOptions() {
         return collections.map((collection, id) => collection.name === 'All' ?
@@ -22,27 +22,49 @@ export const AddNewBookCard = ({ collections, setCollections }) => {
     function handleSubmit(e) {
         e.preventDefault();
         const newBook = bookFactory.getBook(title, author, pages, year, collectionName);
-        if (collectionName === 'New Collection') {
-            const newCollection = collectionFactory.getCollection(collectionName, [newBook]);
-            setCollections(() =>
-                [...collections,
-                    newCollection]
-            )
+        if (isNew) {
+            setCollections((prevState) => {
+                const newCollections = prevState;
+                newCollections.push(collectionFactory.getCollection(collectionName, [newBook]));
+                return newCollections;
+            });
         }
         else {
-            const collectionToEdit = collections.filter(collection => collection.name === collectionName);
-            console.log(collectionToEdit[0].getBooks());
-            // setCollections((prevState) => {
-            //     const editedCollection = []
-            //     prevState.map(collection => collection.name === collectionName ? console.log(collection) : editedCollection.push(collection));
-            //     return editedCollection;
-            // })
+            setCollections((prevState) => {
+                const editedCollection = [];
+                prevState.map(collection => {
+                    if (collection.name === collectionName) {
+                        const collectionToEdit = collections.filter(collection => collection.name === collectionName)[0];
+                        collectionToEdit.addBook(newBook);
+                        editedCollection.push(collectionToEdit);
+                    } else {
+                        editedCollection.push(collection);
+                    }
+                });
+                return editedCollection;
+            });
         }
-        console.log(collections);
+        setCollections((prevState) => {
+            const allBooks = [];
+            prevState.forEach((collection) => {
+                if (collection.name !== 'All') {
+                    allBooks.push(...collection.books);
+                }
+            });
+            const newAllCollection = collectionFactory.getCollection('All', allBooks);
+            return collections.map((collection) => collection.name === 'All' ? newAllCollection : collection);
+        });
+        setIsNew(false);
+        setAddNewBook(false);
     }
 
     function newCollection() {
-        if (collectionName === 'New Collection') {
+        collections.forEach((collection) => {
+            if (collection.name === collectionName) {
+                setIsNew(false);
+            }
+        })
+        if (isNew) {
             return <div>
                     <label htmlFor='collection-name'>Collection Name: </label>
                     <input className='new-collection' type='text' id='collection-name' name='collection-name' value={collectionName}
