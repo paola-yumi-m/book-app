@@ -10,8 +10,8 @@ export const AddNewBookCard = ({ collections, setCollections, setAddNewBook }) =
     const [ author, setAuthor ] = useState("");
     const [ pages, setPages ] = useState("");
     const [ year, setYear ] = useState("");
-    const [ collectionName, setCollectionName ] = useState("New Collection");
-    const [ isNew, setIsNew ] = useState(true);
+    const [ newCollectionName, setNewCollectionName ] = useState("");
+    const [ selectedCollection, setSelectedCollection ] = useState("New Collection");
 
     function getOptions() {
         return collections.map((collection, id) => collection.name === 'All' ?
@@ -19,10 +19,17 @@ export const AddNewBookCard = ({ collections, setCollections, setAddNewBook }) =
             <option key={id} value={collection.name}>{collection.name}</option>);
     }
 
+    function checkIfIsNew(collectionName) {
+        const names = collections.map((collection) => collection.name);
+        return !(names.includes(collectionName));
+
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
+        const collectionName = selectedCollection === 'New Collection' ? newCollectionName : selectedCollection;
         const newBook = bookFactory.getBook(title, author, pages, year, collectionName);
-        if (isNew) {
+        if (checkIfIsNew(collectionName)) {
             setCollections((prevState) => {
                 const newCollections = prevState;
                 newCollections.push(collectionFactory.getCollection(collectionName, [newBook]));
@@ -54,22 +61,17 @@ export const AddNewBookCard = ({ collections, setCollections, setAddNewBook }) =
             const newAllCollection = collectionFactory.getCollection('All', allBooks);
             return collections.map((collection) => collection.name === 'All' ? newAllCollection : collection);
         });
-        setIsNew(false);
         setAddNewBook(false);
     }
 
-    function newCollection() {
-        collections.forEach((collection) => {
-            if (collection.name === collectionName) {
-                setIsNew(false);
-            }
-        })
-        if (isNew) {
+        function newCollection() {
+        if (selectedCollection === 'New Collection') {
             return <div>
-                    <label htmlFor='collection-name'>Collection Name: </label>
-                    <input className='new-collection' type='text' id='collection-name' name='collection-name' value={collectionName}
-                       onChange={event => setCollectionName(event.target.value)} />
-                </div>
+                <label htmlFor='collection-name'>Collection Name: </label>
+                <input className='new-collection' type='text' id='collection-name' name='collection-name'
+                       value={newCollectionName}
+                       onChange={event => setNewCollectionName(event.target.value)}/>
+            </div>
         }
     }
 
@@ -86,7 +88,7 @@ export const AddNewBookCard = ({ collections, setCollections, setAddNewBook }) =
                 <label htmlFor='year'>Year: </label>
                 <input type='text' id='year' name='year' value={year} onChange={event => setYear(event.target.value)} required/>
                 <label htmlFor='collection'>Collection: </label>
-                <select name='collection' id='collection' value={collectionName} onChange={event => setCollectionName(event.target.value)} required>
+                <select name='collection' id='collection' value={selectedCollection} onChange={event => setSelectedCollection(event.target.value)} required>
                     {getOptions()}
                 </select>
                 {newCollection()}
