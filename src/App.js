@@ -43,7 +43,7 @@ export const App = () => {
     useEffect(() => {}, [ currentCollection, collections ]);
 
     const getBooks = (collectionId) =>
-        collections[collectionId].books.map((book, key) => <li className='book-list-item' key={key}><Book book={book} /></li>);
+        collections[collectionId].books.map((book, key) => <li className='book-list-item' key={key}><Book book={book} setAddNewBook={setAddNewBook} /></li>);
 
     const getCollections = () =>
         collections.map((collection, key) => <li key={key}><Collections collection={collection} id={key} setCollection={showCollection} /></li>);
