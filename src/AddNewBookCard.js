@@ -2,16 +2,11 @@ import React, {useState} from "react";
 import {CollectionFactory} from "./factories/collection-factory";
 import {BookFactory} from "./factories/book-factory";
 
-export const AddNewBookCard = ({ collections, setCollections, setAddNewBook, isEditable, setIsEditable, setCurrentBook, currentBook }) => {
+export const AddNewBookCard = ({ collections, books, setCollections, setAddNewBook, isEditable, setIsEditable, title,
+                               setTitle, author, setAuthor, pages, setPages, year, setYear, selectedCollection, setSelectedCollection,
+                                   newCollectionName, setNewCollectionName, currentBook, setCurrentBook }) => {
     const collectionFactory = new CollectionFactory();
     const bookFactory = new BookFactory();
-
-    const [ title, setTitle ] = useState(isEditable ? currentBook.title : '');
-    const [ author, setAuthor ] = useState(isEditable ? currentBook.author : '');
-    const [ pages, setPages ] = useState(isEditable ? currentBook.pages : '');
-    const [ year, setYear ] = useState(isEditable ? currentBook.year : '');
-    const [ newCollectionName, setNewCollectionName ] = useState(isEditable ? currentBook.collection : '');
-    const [ selectedCollection, setSelectedCollection ] = useState(isEditable ? currentBook.collection : "New Collection");
 
     function getOptions() {
         return collections.map((collection, id) => collection.name === 'All' ?
@@ -30,6 +25,7 @@ export const AddNewBookCard = ({ collections, setCollections, setAddNewBook, isE
         const collectionName = selectedCollection === 'New Collection' ? newCollectionName : selectedCollection;
         const newBook = bookFactory.getBook(title, author, pages, year, collectionName);
         if (checkIfIsNew(collectionName)) {
+            console.log('entrou')
             setCollections((prevState) => {
                 const newCollections = prevState;
                 newCollections.push(collectionFactory.getCollection(collectionName, [newBook]));
@@ -42,8 +38,14 @@ export const AddNewBookCard = ({ collections, setCollections, setAddNewBook, isE
                 prevState.map(collection => {
                     if (collection.name === collectionName) {
                         const collectionToEdit = collections.filter(collection => collection.name === collectionName)[0];
-                        collectionToEdit.addBook(newBook);
-                        editedCollection.push(collectionToEdit);
+                        if (isEditable) {
+                            books = collectionToEdit.books;
+                            const editedBooks = books.map(book => book.id === currentBook ? newBook : book);
+                            console.log(editedBooks);
+                        } else {
+                            collectionToEdit.addBook(newBook);
+                            editedCollection.push(collectionToEdit);
+                        }
                     } else {
                         editedCollection.push(collection);
                     }

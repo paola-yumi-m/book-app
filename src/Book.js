@@ -1,11 +1,17 @@
 import React from "react";
 
-export const Book = ({ book, setIsEditable, setCurrentBook }) => {
+export const Book = ({ book, setIsEditable, setTitle, setAuthor, setPages, setYear, setNewCollectionName, setSelectedCollection, setCurrentBook }) => {
     let pagesRead = 0;
 
     function handleEditButton() {
         setIsEditable(true);
-        setCurrentBook(book);
+        setTitle(book.title);
+        setAuthor(book.author);
+        setPages(book.pages);
+        setYear(book.year);
+        setNewCollectionName('');
+        setCurrentBook(book.id);
+        setSelectedCollection(book.collection);
     }
 
     return (

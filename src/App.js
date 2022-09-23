@@ -12,6 +12,13 @@ export const App = () => {
     const [ currentCollection, setCurrentCollection ] = useState(0);
     const [ addNewBook, setAddNewBook ] = useState(false);
     const [ isEditable, setIsEditable ] = useState(false);
+
+    const [ title, setTitle ] = useState('');
+    const [ author, setAuthor ] = useState('');
+    const [ pages, setPages ] = useState('');
+    const [ year, setYear ] = useState('');
+    const [ newCollectionName, setNewCollectionName ] = useState('');
+    const [ selectedCollection, setSelectedCollection ] = useState("New Collection");
     const [ currentBook, setCurrentBook ] = useState(null);
 
     const harryPotter = [
@@ -45,7 +52,9 @@ export const App = () => {
     useEffect(() => {}, [ currentCollection, collections ]);
 
     const getBooks = (collectionId) =>
-        collections[collectionId].books.map((book, key) => <li className='book-list-item' key={key}><Book book={book} setCurrentBook={setCurrentBook} setIsEditable={setIsEditable} /></li>);
+        collections[collectionId].books.map((book, key) => <li className='book-list-item' key={key}><Book book={book} setIsEditable={setIsEditable} setCurrentBook={setCurrentBook}
+                                                                                                          setTitle={setTitle} setAuthor={setAuthor} setPages={setPages} setYear={setYear}
+                                                                                                          setNewCollectionName={setNewCollectionName} setSelectedCollection={setSelectedCollection}/></li>);
 
     const getCollections = () =>
         collections.map((collection, key) => <li key={key}><Collections collection={collection} id={key} setCollection={showCollection} /></li>);
@@ -75,7 +84,12 @@ export const App = () => {
                     <div className='books-header'>
                         <h2>Books</h2>
                         <button className='buttons add-book' onClick={handleAddNewBook}>Add new book</button>
-                        {addNewBook | isEditable ? <AddNewBookCard collections={collections} setCollections={setCollections} setAddNewBook={setAddNewBook} isEditable={isEditable} setIsEditable={setIsEditable} currentBook={currentBook} setCurrentBook={setCurrentBook} /> : <p></p>}
+                        {addNewBook | isEditable ? <AddNewBookCard collections={collections} setCollections={setCollections} setAddNewBook={setAddNewBook}
+                                                                   currentBook={currentBook} setCurrentBook={setCurrentBook}
+                                                                   isEditable={isEditable} setIsEditable={setIsEditable} title={title} setTitle={setTitle} author={author} setAuthor={setAuthor}
+                                                                   pages={pages} setPages={setPages} year={year} setYear={setYear} newCollectionName={newCollectionName}
+                                                                   setNewCollectionName={setNewCollectionName} selectedCollection={selectedCollection}
+                                                                   setSelectedCollection={setSelectedCollection}/> : <p></p>}
                     </div>
                     <ul className='book-list'>
                         {getBooks(currentCollection)}
