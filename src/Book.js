@@ -1,19 +1,11 @@
-import React, {useState} from "react";
+import React from "react";
 
-export const Book = ({ book, setAddNewBook }) => {
-    const [ isEditable, setIsEditable ] = useState(false);
-
+export const Book = ({ book, setIsEditable, setCurrentBook }) => {
     let pagesRead = 0;
 
     function handleEditButton() {
         setIsEditable(true);
-        setAddNewBook(true);
-
-    }
-
-    function handleSaveButton() {
-        setIsEditable(false);
-        setAddNewBook(false);
+        setCurrentBook(book);
     }
 
     return (
@@ -27,8 +19,7 @@ export const Book = ({ book, setAddNewBook }) => {
                 <p className='book-info'>{pagesRead} pages read | {100 * pagesRead / book.pages}% completed</p>
             </div>
             <div>
-                {!isEditable ? <button className='buttons edit-button' onClick={handleEditButton}>Edit</button> :
-                    <button className='buttons save-button' onClick={handleSaveButton}>Save</button>}
+                <button id={book.title} className='buttons edit-button' onClick={handleEditButton}>Edit</button>
                 <button className='buttons delete-button'>Delete</button>
             </div>
         </div>

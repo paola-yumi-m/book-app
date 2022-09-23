@@ -11,6 +11,8 @@ export const App = () => {
     const collectionFactory = new CollectionFactory();
     const [ currentCollection, setCurrentCollection ] = useState(0);
     const [ addNewBook, setAddNewBook ] = useState(false);
+    const [ isEditable, setIsEditable ] = useState(false);
+    const [ currentBook, setCurrentBook ] = useState(null);
 
     const harryPotter = [
             bookFactory.getBook(`Harry Potter and the Philosopher's Stone`, 'J. K. Rowling', 300, 1997, 'Harry Potter'),
@@ -43,7 +45,7 @@ export const App = () => {
     useEffect(() => {}, [ currentCollection, collections ]);
 
     const getBooks = (collectionId) =>
-        collections[collectionId].books.map((book, key) => <li className='book-list-item' key={key}><Book book={book} setAddNewBook={setAddNewBook} /></li>);
+        collections[collectionId].books.map((book, key) => <li className='book-list-item' key={key}><Book book={book} setCurrentBook={setCurrentBook} setIsEditable={setIsEditable} /></li>);
 
     const getCollections = () =>
         collections.map((collection, key) => <li key={key}><Collections collection={collection} id={key} setCollection={showCollection} /></li>);
@@ -73,7 +75,7 @@ export const App = () => {
                     <div className='books-header'>
                         <h2>Books</h2>
                         <button className='buttons add-book' onClick={handleAddNewBook}>Add new book</button>
-                        {addNewBook ? <AddNewBookCard collections={collections} setCollections={setCollections} setAddNewBook={setAddNewBook} /> : <p></p>}
+                        {addNewBook | isEditable ? <AddNewBookCard collections={collections} setCollections={setCollections} setAddNewBook={setAddNewBook} isEditable={isEditable} setIsEditable={setIsEditable} currentBook={currentBook} setCurrentBook={setCurrentBook} /> : <p></p>}
                     </div>
                     <ul className='book-list'>
                         {getBooks(currentCollection)}

@@ -2,16 +2,16 @@ import React, {useState} from "react";
 import {CollectionFactory} from "./factories/collection-factory";
 import {BookFactory} from "./factories/book-factory";
 
-export const AddNewBookCard = ({ collections, setCollections, setAddNewBook }) => {
+export const AddNewBookCard = ({ collections, setCollections, setAddNewBook, isEditable, setIsEditable, setCurrentBook, currentBook }) => {
     const collectionFactory = new CollectionFactory();
     const bookFactory = new BookFactory();
 
-    const [ title, setTitle ] = useState("");
-    const [ author, setAuthor ] = useState("");
-    const [ pages, setPages ] = useState("");
-    const [ year, setYear ] = useState("");
-    const [ newCollectionName, setNewCollectionName ] = useState("");
-    const [ selectedCollection, setSelectedCollection ] = useState("New Collection");
+    const [ title, setTitle ] = useState(isEditable ? currentBook.title : '');
+    const [ author, setAuthor ] = useState(isEditable ? currentBook.author : '');
+    const [ pages, setPages ] = useState(isEditable ? currentBook.pages : '');
+    const [ year, setYear ] = useState(isEditable ? currentBook.year : '');
+    const [ newCollectionName, setNewCollectionName ] = useState(isEditable ? currentBook.collection : '');
+    const [ selectedCollection, setSelectedCollection ] = useState(isEditable ? currentBook.collection : "New Collection");
 
     function getOptions() {
         return collections.map((collection, id) => collection.name === 'All' ?
@@ -62,6 +62,7 @@ export const AddNewBookCard = ({ collections, setCollections, setAddNewBook }) =
             return collections.map((collection) => collection.name === 'All' ? newAllCollection : collection);
         });
         setAddNewBook(false);
+        if (isEditable) setIsEditable(false);
     }
 
         function newCollection() {
@@ -92,7 +93,7 @@ export const AddNewBookCard = ({ collections, setCollections, setAddNewBook }) =
                     {getOptions()}
                 </select>
                 {newCollection()}
-                <input className='buttons add-book submit-button' type='button' onClick={handleSubmit} value='Add' />
+                <input className='buttons add-book submit-button' type='button' onClick={handleSubmit} value={isEditable ? 'Save' : 'Add'} />
             </form>
         </div>
     )
