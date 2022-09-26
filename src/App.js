@@ -85,7 +85,7 @@ export const App = () => {
                         <h2>Books</h2>
                         <button className='buttons add-book' onClick={handleAddNewBook}>Add new book</button>
                         {addNewBook | isEditable ? <AddNewBookCard collections={collections} setCollections={setCollections} setAddNewBook={setAddNewBook}
-                                                                   currentBook={currentBook} setCurrentBook={setCurrentBook}
+                                                                   currentBook={currentBook}
                                                                    isEditable={isEditable} setIsEditable={setIsEditable} title={title} setTitle={setTitle} author={author} setAuthor={setAuthor}
                                                                    pages={pages} setPages={setPages} year={year} setYear={setYear} newCollectionName={newCollectionName}
                                                                    setNewCollectionName={setNewCollectionName} selectedCollection={selectedCollection}
