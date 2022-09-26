@@ -1,8 +1,8 @@
 export class Book {
-    counter = 0;
+    static counter = 0;
 
     constructor(title, author, pages, year, collection) {
-        this._id = this.counter++;
+        this._id = ++Book.counter;
         this._title = title;
         this._author = author;
         this._pages = pages;

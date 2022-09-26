@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import {CollectionFactory} from "./factories/collection-factory";
 import {BookFactory} from "./factories/book-factory";
 
 export const AddNewBookCard = ({ collections, books, setCollections, setAddNewBook, isEditable, setIsEditable, title,
                                setTitle, author, setAuthor, pages, setPages, year, setYear, selectedCollection, setSelectedCollection,
-                                   newCollectionName, setNewCollectionName, currentBook, setCurrentBook }) => {
+                                   newCollectionName, setNewCollectionName, currentBook }) => {
     const collectionFactory = new CollectionFactory();
     const bookFactory = new BookFactory();
 
@@ -41,7 +41,8 @@ export const AddNewBookCard = ({ collections, books, setCollections, setAddNewBo
                         if (isEditable) {
                             books = collectionToEdit.books;
                             const editedBooks = books.map(book => book.id === currentBook ? newBook : book);
-                            console.log(editedBooks);
+                            collectionToEdit.addBooks(editedBooks);
+                            editedCollection.push(collectionToEdit);
                         } else {
                             collectionToEdit.addBook(newBook);
                             editedCollection.push(collectionToEdit);
