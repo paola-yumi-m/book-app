@@ -1,3 +1,5 @@
+import React from "react";
+
 export const Collections = ({ collection, id, setCollection }) => {
     function handleClick(e) {
         const id = e.currentTarget.id;

@@ -4,7 +4,7 @@ import {BookFactory} from "./factories/book-factory";
 
 export const AddNewBookCard = ({ collections, books, setCollections, setAddNewBook, isEditable, setIsEditable, title,
                                setTitle, author, setAuthor, pages, setPages, year, setYear, selectedCollection, setSelectedCollection,
-                                   newCollectionName, setNewCollectionName, currentBook }) => {
+                                   newCollectionName, setNewCollectionName, currentBook, pagesRead, setPagesRead }) => {
     const collectionFactory = new CollectionFactory();
     const bookFactory = new BookFactory();
 
@@ -25,7 +25,6 @@ export const AddNewBookCard = ({ collections, books, setCollections, setAddNewBo
         const collectionName = selectedCollection === 'New Collection' ? newCollectionName : selectedCollection;
         const newBook = bookFactory.getBook(title, author, pages, year, collectionName);
         if (checkIfIsNew(collectionName)) {
-            console.log('entrou')
             setCollections((prevState) => {
                 const newCollections = prevState;
                 newCollections.push(collectionFactory.getCollection(collectionName, [newBook]));
@@ -40,8 +39,8 @@ export const AddNewBookCard = ({ collections, books, setCollections, setAddNewBo
                         const collectionToEdit = collections.filter(collection => collection.name === collectionName)[0];
                         if (isEditable) {
                             books = collectionToEdit.books;
-                            const editedBooks = books.map(book => book.id === currentBook ? newBook : book);
-                            collectionToEdit.addBooks(editedBooks);
+                            newBook.pagesRead = pagesRead;
+                            collectionToEdit.books = books.map(book => book.id === currentBook ? newBook : book);
                             editedCollection.push(collectionToEdit);
                         } else {
                             collectionToEdit.addBook(newBook);
@@ -91,10 +90,11 @@ export const AddNewBookCard = ({ collections, books, setCollections, setAddNewBo
                 <input type='text' id='pages' name='pages' value={pages} onChange={event => setPages(event.target.value)} required/>
                 <label htmlFor='year'>Year: </label>
                 <input type='text' id='year' name='year' value={year} onChange={event => setYear(event.target.value)} required/>
-                <label htmlFor='collection'>Collection: </label>
-                <select name='collection' id='collection' value={selectedCollection} onChange={event => setSelectedCollection(event.target.value)} required>
-                    {getOptions()}
-                </select>
+                {isEditable ? <label htmlFor='pagesRead'>Pages Read: </label> : <label htmlFor='collection'>Collection: </label>}
+                {isEditable ? <input type='text' id='pagesRead' name='pagesRead' value={pagesRead} onChange={event => setPagesRead(event.target.value)} required/> :
+                        <select name='collection' id='collection' value={selectedCollection} onChange={event => setSelectedCollection(event.target.value)} required>
+                            {getOptions()}
+                        </select>}
                 {newCollection()}
                 <input className='buttons add-book submit-button' type='button' onClick={handleSubmit} value={isEditable ? 'Save' : 'Add'} />
             </form>

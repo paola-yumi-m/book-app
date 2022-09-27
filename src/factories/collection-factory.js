@@ -29,10 +29,6 @@ export class Collection {
         this._size = value;
     }
 
-    addBooks(books) {
-        this._books = books;
-    }
-
     addBook(book) {
         this._books.push(book);
         this._size++;

@@ -12,10 +12,11 @@
 .header {
     display: flex;
     align-items: center;
-    background-color: cadetblue;
     height: 4rem;
     width: 100%;
     padding-left: 10px;
+    color: #00d9ff;
+
 }
 
 .body {
@@ -23,7 +24,6 @@
 }
 
 .collections {
-    background-color: lavenderblush;
     width: 15rem;
     padding: 10px;
 }
@@ -45,7 +45,6 @@
 }
 
 .books {
-    background-color: sienna;
     width: 100%;
 }
 
@@ -91,6 +90,10 @@
     border-radius: 10%;
 }
 
+.delete-button-collection {
+    margin-top: 5px;
+}
+
 .buttons:hover {
     background-color: #00d9ff;
     color: #10055c;
@@ -120,6 +123,5 @@ input, select {
 }
 
 .new-collection {
-    width: 200px;
-    border: none;
+    width: 196px;
 }

@@ -16,6 +16,7 @@ export const App = () => {
     const [ title, setTitle ] = useState('');
     const [ author, setAuthor ] = useState('');
     const [ pages, setPages ] = useState('');
+    const [ pagesRead, setPagesRead ] = useState(0);
     const [ year, setYear ] = useState('');
     const [ newCollectionName, setNewCollectionName ] = useState('');
     const [ selectedCollection, setSelectedCollection ] = useState("New Collection");
@@ -52,9 +53,10 @@ export const App = () => {
     useEffect(() => {}, [ currentCollection, collections ]);
 
     const getBooks = (collectionId) =>
-        collections[collectionId].books.map((book, key) => <li className='book-list-item' key={key}><Book book={book} setIsEditable={setIsEditable} setCurrentBook={setCurrentBook}
+        collections[collectionId].books.map((book, key) => <li className='book-list-item' key={key}><Book setCollections={setCollections} book={book} setIsEditable={setIsEditable} setCurrentBook={setCurrentBook}
                                                                                                           setTitle={setTitle} setAuthor={setAuthor} setPages={setPages} setYear={setYear}
-                                                                                                          setNewCollectionName={setNewCollectionName} setSelectedCollection={setSelectedCollection}/></li>);
+                                                                                                          setNewCollectionName={setNewCollectionName} setSelectedCollection={setSelectedCollection}
+                                                                                                          setPagesRead={setPagesRead}/></li>);
 
     const getCollections = () =>
         collections.map((collection, key) => <li key={key}><Collections collection={collection} id={key} setCollection={showCollection} /></li>);
@@ -84,12 +86,12 @@ export const App = () => {
                     <div className='books-header'>
                         <h2>Books</h2>
                         <button className='buttons add-book' onClick={handleAddNewBook}>Add new book</button>
-                        {addNewBook | isEditable ? <AddNewBookCard collections={collections} setCollections={setCollections} setAddNewBook={setAddNewBook}
-                                                                   currentBook={currentBook}
-                                                                   isEditable={isEditable} setIsEditable={setIsEditable} title={title} setTitle={setTitle} author={author} setAuthor={setAuthor}
-                                                                   pages={pages} setPages={setPages} year={year} setYear={setYear} newCollectionName={newCollectionName}
-                                                                   setNewCollectionName={setNewCollectionName} selectedCollection={selectedCollection}
-                                                                   setSelectedCollection={setSelectedCollection}/> : <p></p>}
+                        {addNewBook || isEditable ? <AddNewBookCard collections={collections} setCollections={setCollections} setAddNewBook={setAddNewBook}
+                                                                    currentBook={currentBook}
+                                                                    isEditable={isEditable} setIsEditable={setIsEditable} title={title} setTitle={setTitle} author={author} setAuthor={setAuthor}
+                                                                    pages={pages} setPages={setPages} year={year} setYear={setYear} newCollectionName={newCollectionName}
+                                                                    setNewCollectionName={setNewCollectionName} selectedCollection={selectedCollection}
+                                                                    setSelectedCollection={setSelectedCollection} pagesRead={pagesRead} setPagesRead={setPagesRead}/> : <p></p>}
                     </div>
                     <ul className='book-list'>
                         {getBooks(currentCollection)}

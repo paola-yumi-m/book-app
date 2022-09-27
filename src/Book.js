@@ -1,8 +1,7 @@
 import React from "react";
 
-export const Book = ({ book, setIsEditable, setTitle, setAuthor, setPages, setYear, setNewCollectionName, setSelectedCollection, setCurrentBook }) => {
-    let pagesRead = 0;
-
+export const Book = ({ book, setIsEditable, setTitle, setAuthor, setPages, setYear, setNewCollectionName, setSelectedCollection, setCurrentBook,
+                     setCollections, setPagesRead}) => {
     function handleEditButton() {
         setIsEditable(true);
         setTitle(book.title);
@@ -12,6 +11,29 @@ export const Book = ({ book, setIsEditable, setTitle, setAuthor, setPages, setYe
         setNewCollectionName('');
         setCurrentBook(book.id);
         setSelectedCollection(book.collection);
+        setPagesRead(book.pagesRead);
+    }
+
+    function handleDelete() {
+        const id = book.id;
+        let editedBooks;
+        setCollections(prevState => {
+            const editedCollection = [];
+            prevState.map(collection => {
+                if (collection.name === 'All') {
+                    editedBooks = collection.books.filter(book => book.id !== id);
+                    collection.books = editedBooks;
+                    editedCollection.push(collection);
+                } else if (collection.name === book.collection) {
+                    editedBooks = collection.books.filter(book => book.id !== id);
+                    collection.books = editedBooks;
+                    editedCollection.push(collection)
+                } else {
+                    editedCollection.push(collection);
+                }
+            });
+            return editedCollection;
+        })
     }
 
     return (
@@ -22,11 +44,11 @@ export const Book = ({ book, setIsEditable, setTitle, setAuthor, setPages, setYe
                 <p className='book-info'>{book.pages} pages</p>
                 <p className='book-info'>{book.year}</p>
                 <p className='book-info'>Collection: {book.collection}</p>
-                <p className='book-info'>{pagesRead} pages read | {100 * pagesRead / book.pages}% completed</p>
+                <p className='book-info'>{book.pagesRead} pages read | {Math.ceil(100 * book.pagesRead / book.pages)}% completed</p>
             </div>
             <div>
                 <button id={book.title} className='buttons edit-button' onClick={handleEditButton}>Edit</button>
-                <button className='buttons delete-button'>Delete</button>
+                <button className='buttons delete-button' onClick={handleDelete}>Delete</button>
             </div>
         </div>
     );

@@ -8,6 +8,7 @@ export class Book {
         this._pages = pages;
         this._year = year;
         this._collection = collection;
+        this._pagesRead = 0;
     }
 
     set id(value) {
@@ -28,6 +29,9 @@ export class Book {
     }
     set author(value) {
         this._author = value;
+    }
+    set pagesRead(value) {
+        this._pagesRead = value;
     }
 
     get id() {
@@ -52,6 +56,10 @@ export class Book {
 
     get collection() {
         return this._collection;
+    }
+
+    get pagesRead() {
+        return this._pagesRead;
     }
 }
 
