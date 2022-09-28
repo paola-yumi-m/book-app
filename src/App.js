@@ -59,7 +59,7 @@ export const App = () => {
                                                                                                           setPagesRead={setPagesRead}/></li>);
 
     const getCollections = () =>
-        collections.map((collection, key) => <li key={key}><Collections collection={collection} id={key} setCollection={showCollection} /></li>);
+        collections.map((collection, key) => <li key={key}><Collections collection={collection} id={key} setCollection={showCollection} setCollections={setCollections} /></li>);
 
     const showCollection = (id) => {
         setCurrentCollection(id);

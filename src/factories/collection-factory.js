@@ -5,6 +5,14 @@ export class Collection {
         this._size = books.length;
     }
 
+    get id() {
+        return this._id;
+    }
+
+    set id(value) {
+        this._id = value;
+    }
+
     get name() {
         return this._name;
     }
