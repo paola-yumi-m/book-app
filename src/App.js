@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import './styles.css';
 import {BookFactory} from "./factories/book-factory";
 import {CollectionFactory} from "./factories/collection-factory";
-import {Book} from "./Book";
+import {Book} from "./Book/Book";
 import {Collections} from "./Collections";
 import {AddNewBookCard} from "./AddNewBookCard";
 
