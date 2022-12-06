@@ -3,7 +3,7 @@ import './styles.css';
 import {BookFactory} from "./factories/book-factory";
 import {CollectionFactory} from "./factories/collection-factory";
 import {Book} from "./Book/Book";
-import {Collections} from "./Collections";
+import {Collections} from "./Collection/Collections";
 import {AddNewBookCard} from "./AddNewBookCard";
 
 export const App = () => {

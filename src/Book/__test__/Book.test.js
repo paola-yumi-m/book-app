@@ -78,4 +78,13 @@ describe('<Book />', function () {
         expect(mockSetSelectedCollection).toBeCalledWith(book.collection);
         expect(mockSetPagesRead).toBeCalledWith(book.pagesRead);
     });
+
+    it('should call handleDelete when delete button is clicked', function () {
+        renderBookComponent();
+
+        const deleteButton = screen.getByRole('button', { name: 'Delete' });
+        userEvent.click(deleteButton);
+
+        expect(mockSetCollections).toBeCalledTimes(1);
+    });
 });
