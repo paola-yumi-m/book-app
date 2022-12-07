@@ -4,7 +4,7 @@ import {BookFactory} from "./factories/book-factory";
 import {CollectionFactory} from "./factories/collection-factory";
 import {Book} from "./Book/Book";
 import {Collections} from "./Collection/Collections";
-import {AddNewBookCard} from "./AddNewBookCard";
+import {AddNewBookCard} from "./AddNewBookCard/AddNewBookCard";
 
 export const App = () => {
     const bookFactory = new BookFactory();

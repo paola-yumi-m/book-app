@@ -1,6 +1,6 @@
 import React from "react";
-import {CollectionFactory} from "./factories/collection-factory";
-import {BookFactory} from "./factories/book-factory";
+import {CollectionFactory} from "../factories/collection-factory";
+import {BookFactory} from "../factories/book-factory";
 
 export const AddNewBookCard = ({ collections, books, setCollections, setAddNewBook, isEditable, setIsEditable, title,
                                setTitle, author, setAuthor, pages, setPages, year, setYear, selectedCollection, setSelectedCollection,
