@@ -3,6 +3,7 @@ import {Collections} from "../Collections";
 import {CollectionFactory} from "../../factories/collection-factory";
 import {BookFactory} from "../../factories/book-factory";
 import '@testing-library/jest-dom';
+import userEvent from "@testing-library/user-event";
 
 const book = new BookFactory().getBook(
     'Wonder',
@@ -57,5 +58,14 @@ describe('<Collection />', function () {
         const deleteButton = screen.queryByRole('button', { name: 'Delete' });
 
         expect(deleteButton).not.toBeInTheDocument();
+    });
+
+    it('should call handleDelete when delete button is clicked', function () {
+        renderCollectionComponent(getCollection('Inspiring', [book]));
+
+        const deleteButton = screen.getByRole('button', { name: 'Delete' });
+        userEvent.click(deleteButton);
+
+        expect(mockSetCollections).toBeCalledTimes(2);
     });
 });
