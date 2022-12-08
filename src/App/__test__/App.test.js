@@ -96,4 +96,61 @@ describe('<App />', function () {
 
         expect(numberOfBooksAllCollection).toBeInTheDocument();
     });
+
+    it('should delete book from list of books of its collection', function () {
+        render(
+            <App />
+        );
+
+        const collectionMazeRunner = screen.getAllByTestId('collections')[2];
+        userEvent.click(collectionMazeRunner);
+        const booksCards = screen.getAllByTestId('books');
+        const theMazeRunnerCardBeforeDelete = booksCards[0];
+        const theMazeRunnerCardDeleteButton = within(theMazeRunnerCardBeforeDelete).getByText('Delete');
+        userEvent.click(theMazeRunnerCardDeleteButton);
+        const booksCardsAfterDelete = screen.getAllByTestId('books');
+        const theMazeRunnerCardAfterDelete = screen.queryByText('The Maze Runner');
+
+        expect(booksCardsAfterDelete.length).toBe(4);
+        expect(theMazeRunnerCardAfterDelete).not.toBeInTheDocument();
+    });
+
+    it('should delete book from list of books of all collection as well', function () {
+        render(
+            <App />
+        );
+
+        const collections = screen.getAllByTestId('collections');
+        const collectionMazeRunner = collections[2];
+        userEvent.click(collectionMazeRunner);
+        const booksCardsMazeRunnerCollection = screen.getAllByTestId('books');
+        const theMazeRunnerCardBeforeDelete = booksCardsMazeRunnerCollection[0];
+        const theMazeRunnerCardDeleteButton = within(theMazeRunnerCardBeforeDelete).getByText('Delete');
+        userEvent.click(theMazeRunnerCardDeleteButton);
+        const collectionAll = collections[0];
+        userEvent.click(collectionAll);
+        const booksCardsAllCollection = screen.getAllByTestId('books');
+        const theMazeRunnerCardFromAllCollection = screen.queryByText('The Maze Runner');
+
+        expect(booksCardsAllCollection.length).toBe(11);
+        expect(theMazeRunnerCardFromAllCollection).not.toBeInTheDocument();
+    });
+
+    it('should adjust number of books in collections', function () {
+        render(
+            <App />
+        );
+
+        const theMazeRunnerCard = screen.getAllByTestId('books')[7];
+        const theMazeRunnerCardDeleteButton = within(theMazeRunnerCard).getByText('Delete');
+        userEvent.click(theMazeRunnerCardDeleteButton);
+        const collections = screen.getAllByTestId('collections');
+        const collectionAll = collections[0];
+        const numberOfBooksCollectionAll = within(collectionAll).getByText('11 books');
+        const collectionMazeRunner = collections[2];
+        const numberOfBooksCollectionMazeRunner = within(collectionMazeRunner).getByText('4 books');
+
+        expect(numberOfBooksCollectionAll).toBeInTheDocument();
+        expect(numberOfBooksCollectionMazeRunner).toBeInTheDocument();
+    });
 });
