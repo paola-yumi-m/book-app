@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Collections = ({ collection, id, setCollection, setCollections }) => {
+export const Collections = ({ collection, setCurrentCollection, id, setCollection, setCollections }) => {
     function handleClick(e) {
         const id = e.currentTarget.id;
         setCollection(id);
@@ -8,6 +8,7 @@ export const Collections = ({ collection, id, setCollection, setCollections }) =
 
     function handleDelete(e) {
         const id = e.target.id;
+        setCurrentCollection(0);
         setCollections(prevState => prevState.filter(collection => collection.name !== id));
         setCollections(prevState => {
             const editedCollection = [];
@@ -24,12 +25,12 @@ export const Collections = ({ collection, id, setCollection, setCollections }) =
 
     return (
         <div>
-            <div className='collection-card' onClick={handleClick} id={id}>
+            <div data-testid={'collections'} className='collection-card' onClick={handleClick} id={id}>
                 <h3>{collection.name}</h3>
                 <p>{collection.books.length > 1 ? `${collection.books.length} books` : `${collection.books.length} book`}</p>
             </div>
             <div className='collection-button'>
-                {collection.name !== 'All' ? <button className='buttons collection-button' onClick={handleDelete} id={collection.name}>Delete</button> : <p></p>}
+                {collection.name !== 'All' ? <button className='buttons collection-button' onClick={handleDelete} id={collection.name}>Delete Collection</button> : <p></p>}
             </div>
         </div>
     );

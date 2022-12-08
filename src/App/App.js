@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
-import './styles.css';
-import {BookFactory} from "./factories/book-factory";
-import {CollectionFactory} from "./factories/collection-factory";
-import {Book} from "./Book/Book";
-import {Collections} from "./Collection/Collections";
-import {AddNewBookCard} from "./AddNewBookCard/AddNewBookCard";
+import '../styles.css';
+import {BookFactory} from "../factories/book-factory";
+import {CollectionFactory} from "../factories/collection-factory";
+import {Book} from "../Book/Book";
+import {Collections} from "../Collection/Collections";
+import {AddNewBookCard} from "../AddNewBookCard/AddNewBookCard";
 
 export const App = () => {
     const bookFactory = new BookFactory();
@@ -59,7 +59,7 @@ export const App = () => {
                                                                                                           setPagesRead={setPagesRead}/></li>);
 
     const getCollections = () =>
-        collections.map((collection, key) => <li key={key}><Collections collection={collection} id={key} setCollection={showCollection} setCollections={setCollections} /></li>);
+        collections.map((collection, key) => <li key={key}><Collections collection={collection} id={key} setCurrentCollection={setCurrentCollection} setCollection={showCollection} setCollections={setCollections} /></li>);
 
     const showCollection = (id) => {
         setCurrentCollection(id);

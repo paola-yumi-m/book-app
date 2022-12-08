@@ -38,7 +38,7 @@ export const Book = ({ book, setIsEditable, setTitle, setAuthor, setPages, setYe
     }
 
     return (
-        <div className='book-card'>
+        <div data-testid='books' className='book-card'>
             <h3>{book.title}</h3>
             <h4>{book.author}</h4>
             <div className='book-card-content'>
