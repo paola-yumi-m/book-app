@@ -3,6 +3,10 @@ import {App} from "../App";
 import '@testing-library/jest-dom';
 import userEvent from "@testing-library/user-event";
 
+function getByRoleButton(buttonName) {
+    return screen.getByRole('button', {name: buttonName});
+}
+
 describe('<App />', function () {
     it('should render all collections', function () {
         render(
@@ -274,21 +278,21 @@ describe('<App />', function () {
         const collectionAllCardBeforeAddition = collectionsCardsBeforeEdition[0];
         const numberOfBooksCollectionAllBeforeEdition =
             within(collectionAllCardBeforeAddition).getByText('12 books');
-        const booksCardsBeforeAddition = screen.getAllByTestId('books');
-        const bookWonderCardBeforeAddition = within(booksCardsBeforeAddition).queryByText('Wonder');
+        const bookTheCursedChildCardBeforeAddition = screen.queryByText('The Cursed Child');
 
-        const addNewBookButton = screen.getByRole('button', { name: 'Add new book' });
+        const addNewBookButton = getByRoleButton('Add new book');
         userEvent.click(addNewBookButton);
         const titleInput = screen.getByRole('textbox', { name: 'Title:' });
-        fireEvent.change(titleInput, { target: { value: 'Wonder' }});
+        fireEvent.change(titleInput, { target: { value: 'The Cursed Child' }});
         const authorInput = screen.getByRole('textbox', { name: 'Author:' });
-        fireEvent.change(authorInput, { target: { value: 'R J Palacio' }});
+        fireEvent.change(authorInput, { target: { value: 'J K Rowling' }});
         const pagesInput = screen.getByRole('textbox', { name: 'Pages:' });
-        fireEvent.change(pagesInput, { target: { value: '315' }});
+        fireEvent.change(pagesInput, { target: { value: '352' }});
         const yearInput = screen.getByRole('textbox', { name: 'Year:' });
-        fireEvent.change(yearInput, { target: { value: '2012' }});
-        const collectionNameInput = screen.getByRole('textbox', { name: 'Collection Name:' });
-        fireEvent.change(collectionNameInput, { target: { value: 'Inspiring' }});
+        fireEvent.change(yearInput, { target: { value: '2016' }});
+        const collectionComboBox = screen.getByRole('combobox');
+        fireEvent.click(collectionComboBox, { target: { value: 'Harry Potter' } });
+        const collectionNameInput = screen.queryByRole('textbox', { name: 'Collection Name:' });
         const addBookButton = screen.getByRole('button', { name: 'Add' });
         userEvent.click(addBookButton);
 
@@ -296,27 +300,47 @@ describe('<App />', function () {
         const collectionAllCardAfterAddition = collectionsCardsAfterEdition[0];
         const numberOfBooksCollectionAllAfterEdition =
             within(collectionAllCardAfterAddition).getByText('13 books');
-        const collectionInspiringCard = collectionsCardsAfterEdition[3];
-        const numberOfBooksCollectionInspiring = within(collectionInspiringCard).getByText('1 book');
+        const collectionHarryPotter = collectionsCardsAfterEdition[1];
+        const numberOfBooksCollectionHarryPotter = within(collectionHarryPotter).getByText('8 books');
         const booksCardsAllCollectionAfterAddition = screen.getAllByTestId('books');
-        const bookWonderCardAllCollectionAfterAddition = within(booksCardsAllCollectionAfterAddition).queryByText('Wonder');
+        const bookTheCursedChildCardAllCollectionAfterAddition = within(booksCardsAllCollectionAfterAddition).queryByText('The Cursed Child');
 
-        userEvent.click(collectionInspiringCard);
-        const booksCardsInspiringCollection = screen.getAllByTestId('books');
-        const bookWonderCardInspiringCollection = within(booksCardsInspiringCollection).queryByText('Wonder');
-
+        userEvent.click(collectionHarryPotter);
+        const booksCardsHarryPotterCollection = screen.getAllByTestId('books');
+        const bookTheCursedChildCardHarryPotterCollection = within(booksCardsHarryPotterCollection).queryByText('The Cursed Child');
 
         expect(collectionsCardsBeforeEdition.length).toBe(3);
         expect(numberOfBooksCollectionAllBeforeEdition).toBeInTheDocument();
-        expect(bookWonderCardBeforeAddition).not.toBeInTheDocument();
-        expect(collectionsCardsAfterEdition.length).toBe(4);
+        expect(bookTheCursedChildCardBeforeAddition).not.toBeInTheDocument();
+        expect(collectionNameInput).not.toBeInTheDocument();
+        expect(collectionsCardsAfterEdition.length).toBe(3);
         expect(numberOfBooksCollectionAllAfterEdition).toBeInTheDocument();
-        expect(collectionInspiringCard).toBeInTheDocument();
-        expect(numberOfBooksCollectionInspiring).toBeInTheDocument();
-        expect(bookWonderCardAllCollectionAfterAddition).toBeInTheDocument();
-        expect(bookWonderCardInspiringCollection).toBeInTheDocument();
+        expect(numberOfBooksCollectionHarryPotter).toBeInTheDocument();
+        expect(bookTheCursedChildCardAllCollectionAfterAddition).toBeInTheDocument();
+        expect(bookTheCursedChildCardHarryPotterCollection).toBeInTheDocument();
     });
-    it('should clear form after saving book', function () {
 
+    it('should clear form after saving book', function () {
+        render(
+            <App />
+        );
+
+        const theFeverCodeCardBeforeEdition = screen.getAllByTestId('books')[11];
+        const theFeverCodeCardEditButton = within(theFeverCodeCardBeforeEdition).getByText('Edit');
+        userEvent.click(theFeverCodeCardEditButton);
+        const editCardSaveButton = screen.getByRole('button', { name: 'Save' });
+        userEvent.click(editCardSaveButton);
+        const addNewBookButton = screen.getByRole('button', { name: 'Add new book' });
+        userEvent.click(addNewBookButton);
+        const [ titleInput, authorInput, pagesInput, yearInput, collectionName ] =
+            screen.getAllByRole('textbox');
+        const collectionCombobox = screen.getByRole('combobox');
+
+        expect(pagesRead).toBeInTheDocument();
+        expect(titleInput.value).toBe('');
+        expect(authorInput.value).toBe('');
+        expect(pagesInput.value).toBe('');
+        expect(yearInput.value).toBe('');
+        expect(collectionName.value).toBe('');
     });
 });
