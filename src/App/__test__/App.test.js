@@ -291,7 +291,7 @@ describe('<App />', function () {
         const yearInput = screen.getByRole('textbox', { name: 'Year:' });
         fireEvent.change(yearInput, { target: { value: '2016' }});
         const collectionComboBox = screen.getByRole('combobox');
-        fireEvent.click(collectionComboBox, { target: { value: 'Harry Potter' } });
+        fireEvent.change(collectionComboBox, { target: { value: 'Harry Potter' } });
         const collectionNameInput = screen.queryByRole('textbox', { name: 'Collection Name:' });
         const addBookButton = screen.getByRole('button', { name: 'Add' });
         userEvent.click(addBookButton);
@@ -302,12 +302,10 @@ describe('<App />', function () {
             within(collectionAllCardAfterAddition).getByText('13 books');
         const collectionHarryPotter = collectionsCardsAfterEdition[1];
         const numberOfBooksCollectionHarryPotter = within(collectionHarryPotter).getByText('8 books');
-        const booksCardsAllCollectionAfterAddition = screen.getAllByTestId('books');
-        const bookTheCursedChildCardAllCollectionAfterAddition = within(booksCardsAllCollectionAfterAddition).queryByText('The Cursed Child');
+        const bookTheCursedChildCardAllCollectionAfterAddition = screen.getByText('The Cursed Child');
 
         userEvent.click(collectionHarryPotter);
-        const booksCardsHarryPotterCollection = screen.getAllByTestId('books');
-        const bookTheCursedChildCardHarryPotterCollection = within(booksCardsHarryPotterCollection).queryByText('The Cursed Child');
+        const bookTheCursedChildCardHarryPotterCollection = screen.getByText('The Cursed Child');
 
         expect(collectionsCardsBeforeEdition.length).toBe(3);
         expect(numberOfBooksCollectionAllBeforeEdition).toBeInTheDocument();
