@@ -1,4 +1,4 @@
-import {prettyDOM, render, screen, within} from "@testing-library/react";
+import {fireEvent, prettyDOM, render, screen, within} from "@testing-library/react";
 import {App} from "../App";
 import '@testing-library/jest-dom';
 import userEvent from "@testing-library/user-event";
@@ -152,5 +152,171 @@ describe('<App />', function () {
 
         expect(numberOfBooksCollectionAll).toBeInTheDocument();
         expect(numberOfBooksCollectionMazeRunner).toBeInTheDocument();
+    });
+
+    it('should open edition card when clicking on Edit button', function () {
+        render(
+            <App />
+        );
+
+        const books = screen.getAllByTestId('books');
+        const theScorchTrialsCard = books[8];
+        const theScorchTrialsCardEditButton = within(theScorchTrialsCard).getByText('Edit');
+        userEvent.click(theScorchTrialsCardEditButton);
+
+        const [ titleInput, authorInput, pagesInput, yearInput, pagesReadInput ] =
+            screen.getAllByRole('textbox');
+
+        expect(titleInput.value).toBe('The Scorch Trials');
+        expect(authorInput.value).toBe('James Dashner');
+        expect(pagesInput.value).toBe('361');
+        expect(yearInput.value).toBe('2010');
+        expect(pagesReadInput.value).toBe('0');
+    });
+
+    it('should open add new book card when clicking on Add New Book button', function () {
+        render(
+            <App />
+        );
+
+        const addNewBookButton = screen.getByRole('button', { name: 'Add new book' });
+        userEvent.click(addNewBookButton);
+        const titleInput = screen.getByRole('textbox', { name: 'Title:' });
+        const authorInput = screen.getByRole('textbox', { name: 'Author:' });
+        const pagesInput = screen.getByRole('textbox', { name: 'Pages:' });
+        const yearInput = screen.getByRole('textbox', { name: 'Year:' });
+        const collectionComboBoxOptions = screen.getByRole('combobox').options;
+        const collectionNameInput = screen.getByRole('textbox', { name: 'Collection Name:' });
+
+        expect(titleInput).toBeInTheDocument();
+        expect(authorInput).toBeInTheDocument();
+        expect(pagesInput).toBeInTheDocument();
+        expect(yearInput).toBeInTheDocument();
+        expect(collectionNameInput).toBeInTheDocument();
+        expect(collectionComboBoxOptions.length).toBe(3);
+        expect(collectionComboBoxOptions[0].innerHTML).toBe('New Collection');
+        expect(collectionComboBoxOptions[1].innerHTML).toBe('Harry Potter');
+        expect(collectionComboBoxOptions[2].innerHTML).toBe('Maze Runner');
+    });
+
+    it('should edit book information', function () {
+        render(
+            <App />
+        );
+
+        const theFeverCodeCardBeforeEdition = screen.getAllByTestId('books')[11];
+        const theFeverCodeCardEditButton = within(theFeverCodeCardBeforeEdition).getByText('Edit');
+        userEvent.click(theFeverCodeCardEditButton);
+
+        const [ titleInput, authorInput, pagesInput, yearInput, pagesReadInput ] =
+            screen.getAllByRole('textbox');
+        fireEvent.change(pagesReadInput, { target: { value: '100' }});
+        const editCardSaveButton = screen.getByRole('button', { name: 'Save' });
+        userEvent.click(editCardSaveButton);
+
+        const theFeverCodeCardAfterEdition = screen.getAllByTestId('books')[11];
+        const pagesRead = within(theFeverCodeCardAfterEdition).getByText('100 pages read | 29% completed');
+
+        expect(pagesRead).toBeInTheDocument();
+        expect(titleInput).not.toBeInTheDocument();
+        expect(authorInput).not.toBeInTheDocument();
+        expect(pagesInput).not.toBeInTheDocument();
+        expect(yearInput).not.toBeInTheDocument();
+        expect(pagesReadInput).not.toBeInTheDocument();
+    });
+
+    it('should add new book to a new collection', function () {
+        render(
+            <App />
+        );
+
+        const collectionsCardsBeforeEdition = screen.getAllByTestId('collections');
+        const collectionAllCardBeforeAddition = collectionsCardsBeforeEdition[0];
+        const numberOfBooksCollectionAllBeforeEdition =
+            within(collectionAllCardBeforeAddition).getByText('12 books');
+
+        const addNewBookButton = screen.getByRole('button', { name: 'Add new book' });
+        userEvent.click(addNewBookButton);
+        const titleInput = screen.getByRole('textbox', { name: 'Title:' });
+        fireEvent.change(titleInput, { target: { value: 'Wonder' }});
+        const authorInput = screen.getByRole('textbox', { name: 'Author:' });
+        fireEvent.change(authorInput, { target: { value: 'R J Palacio' }});
+        const pagesInput = screen.getByRole('textbox', { name: 'Pages:' });
+        fireEvent.change(pagesInput, { target: { value: '315' }});
+        const yearInput = screen.getByRole('textbox', { name: 'Year:' });
+        fireEvent.change(yearInput, { target: { value: '2012' }});
+        const collectionNameInput = screen.getByRole('textbox', { name: 'Collection Name:' });
+        fireEvent.change(collectionNameInput, { target: { value: 'Inspiring' }});
+        const addBookButton = screen.getByRole('button', { name: 'Add' });
+        userEvent.click(addBookButton);
+
+        const collectionsCardsAfterEdition = screen.getAllByTestId('collections');
+        const collectionAllCardAfterAddition = collectionsCardsAfterEdition[0];
+        const numberOfBooksCollectionAllAfterEdition =
+            within(collectionAllCardAfterAddition).getByText('13 books');
+        const collectionInspiringCard = collectionsCardsAfterEdition[3];
+        const numberOfBooksCollectionInspiring = within(collectionInspiringCard).getByText('1 book');
+
+        expect(collectionsCardsBeforeEdition.length).toBe(3);
+        expect(numberOfBooksCollectionAllBeforeEdition).toBeInTheDocument();
+        expect(collectionsCardsAfterEdition.length).toBe(4);
+        expect(numberOfBooksCollectionAllAfterEdition).toBeInTheDocument();
+        expect(collectionInspiringCard).toBeInTheDocument();
+        expect(numberOfBooksCollectionInspiring).toBeInTheDocument();
+    });
+
+    it('should add new book to existing collection', function () {
+        render(
+            <App />
+        );
+
+        const collectionsCardsBeforeEdition = screen.getAllByTestId('collections');
+        const collectionAllCardBeforeAddition = collectionsCardsBeforeEdition[0];
+        const numberOfBooksCollectionAllBeforeEdition =
+            within(collectionAllCardBeforeAddition).getByText('12 books');
+        const booksCardsBeforeAddition = screen.getAllByTestId('books');
+        const bookWonderCardBeforeAddition = within(booksCardsBeforeAddition).queryByText('Wonder');
+
+        const addNewBookButton = screen.getByRole('button', { name: 'Add new book' });
+        userEvent.click(addNewBookButton);
+        const titleInput = screen.getByRole('textbox', { name: 'Title:' });
+        fireEvent.change(titleInput, { target: { value: 'Wonder' }});
+        const authorInput = screen.getByRole('textbox', { name: 'Author:' });
+        fireEvent.change(authorInput, { target: { value: 'R J Palacio' }});
+        const pagesInput = screen.getByRole('textbox', { name: 'Pages:' });
+        fireEvent.change(pagesInput, { target: { value: '315' }});
+        const yearInput = screen.getByRole('textbox', { name: 'Year:' });
+        fireEvent.change(yearInput, { target: { value: '2012' }});
+        const collectionNameInput = screen.getByRole('textbox', { name: 'Collection Name:' });
+        fireEvent.change(collectionNameInput, { target: { value: 'Inspiring' }});
+        const addBookButton = screen.getByRole('button', { name: 'Add' });
+        userEvent.click(addBookButton);
+
+        const collectionsCardsAfterEdition = screen.getAllByTestId('collections');
+        const collectionAllCardAfterAddition = collectionsCardsAfterEdition[0];
+        const numberOfBooksCollectionAllAfterEdition =
+            within(collectionAllCardAfterAddition).getByText('13 books');
+        const collectionInspiringCard = collectionsCardsAfterEdition[3];
+        const numberOfBooksCollectionInspiring = within(collectionInspiringCard).getByText('1 book');
+        const booksCardsAllCollectionAfterAddition = screen.getAllByTestId('books');
+        const bookWonderCardAllCollectionAfterAddition = within(booksCardsAllCollectionAfterAddition).queryByText('Wonder');
+
+        userEvent.click(collectionInspiringCard);
+        const booksCardsInspiringCollection = screen.getAllByTestId('books');
+        const bookWonderCardInspiringCollection = within(booksCardsInspiringCollection).queryByText('Wonder');
+
+
+        expect(collectionsCardsBeforeEdition.length).toBe(3);
+        expect(numberOfBooksCollectionAllBeforeEdition).toBeInTheDocument();
+        expect(bookWonderCardBeforeAddition).not.toBeInTheDocument();
+        expect(collectionsCardsAfterEdition.length).toBe(4);
+        expect(numberOfBooksCollectionAllAfterEdition).toBeInTheDocument();
+        expect(collectionInspiringCard).toBeInTheDocument();
+        expect(numberOfBooksCollectionInspiring).toBeInTheDocument();
+        expect(bookWonderCardAllCollectionAfterAddition).toBeInTheDocument();
+        expect(bookWonderCardInspiringCollection).toBeInTheDocument();
+    });
+    it('should clear form after saving book', function () {
+
     });
 });

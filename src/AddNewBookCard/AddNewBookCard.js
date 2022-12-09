@@ -65,6 +65,12 @@ export const AddNewBookCard = ({ collections, books, setCollections, setAddNewBo
         });
         setAddNewBook(false);
         if (isEditable) setIsEditable(false);
+        setTitle('');
+        setAuthor('');
+        setPages('');
+        setYear('');
+        setSelectedCollection('New Collection');
+        setNewCollectionName('');
     }
 
         function newCollection() {
