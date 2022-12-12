@@ -1,4 +1,4 @@
-import {fireEvent, prettyDOM, render, screen, within} from "@testing-library/react";
+import {fireEvent, render, screen, within} from "@testing-library/react";
 import {App} from "../App";
 import '@testing-library/jest-dom';
 import userEvent from "@testing-library/user-event";
@@ -72,7 +72,6 @@ describe('<App />', function () {
         );
 
         const deleteCollectionButtons = screen.getAllByText('Delete Collection');
-
         const deleteHarryPotterCollectionButton = deleteCollectionButtons[0];
         userEvent.click(deleteHarryPotterCollectionButton);
         const collectionCards = screen.getAllByTestId('collections');
@@ -140,7 +139,7 @@ describe('<App />', function () {
         expect(theMazeRunnerCardFromAllCollection).not.toBeInTheDocument();
     });
 
-    it('should adjust number of books in collections', function () {
+    it('should adjust number of books in collections after deletion', function () {
         render(
             <App />
         );
@@ -278,6 +277,8 @@ describe('<App />', function () {
         const collectionAllCardBeforeAddition = collectionsCardsBeforeEdition[0];
         const numberOfBooksCollectionAllBeforeEdition =
             within(collectionAllCardBeforeAddition).getByText('12 books');
+        const collectionHarryPotterBeforeEdition = collectionsCardsBeforeEdition[1];
+        const numberOfBooksCollectionHarryPotterBeforeEdition = within(collectionHarryPotterBeforeEdition).getByText('7 books');
         const bookTheCursedChildCardBeforeAddition = screen.queryByText('The Cursed Child');
 
         const addNewBookButton = getByRoleButton('Add new book');
@@ -309,6 +310,7 @@ describe('<App />', function () {
 
         expect(collectionsCardsBeforeEdition.length).toBe(3);
         expect(numberOfBooksCollectionAllBeforeEdition).toBeInTheDocument();
+        expect(numberOfBooksCollectionHarryPotterBeforeEdition).toBeInTheDocument();
         expect(bookTheCursedChildCardBeforeAddition).not.toBeInTheDocument();
         expect(collectionNameInput).not.toBeInTheDocument();
         expect(collectionsCardsAfterEdition.length).toBe(3);
@@ -334,11 +336,11 @@ describe('<App />', function () {
             screen.getAllByRole('textbox');
         const collectionCombobox = screen.getByRole('combobox');
 
-        expect(pagesRead).toBeInTheDocument();
         expect(titleInput.value).toBe('');
         expect(authorInput.value).toBe('');
         expect(pagesInput.value).toBe('');
         expect(yearInput.value).toBe('');
         expect(collectionName.value).toBe('');
+        expect(collectionCombobox).toBeInTheDocument();
     });
 });
