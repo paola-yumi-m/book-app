@@ -28,6 +28,7 @@ describe('<Collection />', function () {
                 id={0}
                 setCollection={mockSetCollection}
                 setCollections={mockSetCollections}
+                setCurrentCollection={jest.fn()}
             />
         );
     }
@@ -37,7 +38,7 @@ describe('<Collection />', function () {
 
         const name = screen.getByRole('heading', {level: 3});
         const numberOfBooks = screen.getByText('1 book');
-        const deleteButton = screen.getByRole('button', { name: 'Delete' });
+        const deleteButton = screen.getByRole('button', { name: 'Delete Collection' });
 
         expect(name.innerHTML).toBe(collection.name);
         expect(numberOfBooks).toBeInTheDocument();
@@ -63,7 +64,7 @@ describe('<Collection />', function () {
     it('should call handleDelete when delete button is clicked', function () {
         renderCollectionComponent(getCollection('Inspiring', [book]));
 
-        const deleteButton = screen.getByRole('button', { name: 'Delete' });
+        const deleteButton = screen.getByRole('button', { name: 'Delete Collection' });
         userEvent.click(deleteButton);
 
         expect(mockSetCollections).toBeCalledTimes(2);
